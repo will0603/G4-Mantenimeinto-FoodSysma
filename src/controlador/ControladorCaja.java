@@ -28,6 +28,16 @@ public class ControladorCaja {
     public ControladorCaja() {
         boletas = new ArrayList<Boleta>();
     }
+    
+    /*
+    Developer: Wilfredo Huallpartupa Gallegos
+    
+    Para la implementación de una BDD, para este proyecto, debemos cambiar 
+    el método leerArchivo(), por uno nuevo llamado cargarDatos(), dentro de este
+    método ejecutaremos código, que abra la conección a la BDD y ejecutar 
+    código SQL para obtener la información registrada en BDD. Para cargar esta información 
+    en el ArrayList boletas.
+    */
 
     public void leerArchivo() {
         try {
@@ -50,6 +60,14 @@ public class ControladorCaja {
             JOptionPane.showMessageDialog(null, "Sin boletas");
         }
     }
+    /*
+    Developer: Wilfredo Huallpartupa Gallegos
+    
+    El método salvarArchivo() debe cambiarse por uno nuevo llamado guardarDatos(), 
+    en este método ejecutaremos código para almacenar los datos creados, por el usuario,
+    en la BDD.
+ 
+    */
 
     public void salvarArchivo() {
         try {

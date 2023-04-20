@@ -25,6 +25,16 @@ public class ControladorArchivoMenu {
 //        comidas = new ArrayList<Comida>();
 //        leerArchivo();
 //    }
+    
+    /*
+    Developer: Wilfredo Huallpartupa Gallegos
+    
+    Para la implementación de una BDD, para este proyecto, debemos cambiar 
+    el método leerArchivo(), por uno nuevo llamado cargarDatos(), dentro de este
+    método ejecutaremos código, que abra la conección a la BDD y ejecutar 
+    código SQL para obtener la información registrada en BDD. Para cargar esta información 
+    en el ArrayList a.
+    */
     public void leerArchivo(ArrayList<Comida> a) {
         try {
             FileInputStream file = new FileInputStream("Comidas.dat");
@@ -44,6 +54,15 @@ public class ControladorArchivoMenu {
             JOptionPane.showMessageDialog(null, "Sin comidas.");
         }
     }
+    
+    /*
+    Developer: Wilfredo Huallpartupa Gallegos
+    
+    El método salvarArchivo() debe cambiarse por uno nuevo llamado guardarDatos(), 
+    en este método ejecutaremos código para almacenar los datos creados, por el usuario,
+    en la BDD.
+ 
+    */
 
     public void salvarArchivo(ArrayList<Comida> a) {
         try {
@@ -66,6 +85,16 @@ public class ControladorArchivoMenu {
 //        }
 //    }
     //Para inicializar las comidas, luego borrar metodo.
+    
+    
+    /*
+    Developer: Wilfredo Huallpartupa Gallegos
+    
+    Es necesario modificar método inicializarMenu(), debemos eliminar todo el código
+    del método, colocamos código para obtener los datos de la lista de Comidas
+    que se han registrando en la base de datos (BDD)
+    
+    */
     public void inicializarMenu(ArrayList<Comida> a) {
         Inventario miInventario = Inventario.getInventario();
 
