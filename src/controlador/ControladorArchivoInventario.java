@@ -15,14 +15,35 @@ import modelo.Inventario;
  *
  * @author Carlos
  */
- // VEGA CENTENO RODRIGO SEBASTIAN
- // Agregar la funcionalidad de añadir-eliminar-modificar un elemento en la base de datos. 
- // Eliminar las clases que trabajen con archivos 
+ 
 
 public class ControladorArchivoInventario {
 
     ArrayList<Ingrediente> a = new ArrayList<Ingrediente>();
+//    private ArrayList<Ingrediente> ingredientes;
+//
+//    public ControladorArchivoInventario() {
+//        this.ingredientes = new ArrayList<Ingrediente>();
+//        ArrayList<Ingrediente> temp;
+//        temp = crearArrayList();
+//        leerArchivo(temp);
+//        inicializarInventario(temp);
+//        salvarArchivo(temp);
+//    }
 
+     /*
+    Developer: Wilfredo Huallpartupa Gallegos
+    
+    Para la implementación de una BDD, para este proyecto, debemos cambiar 
+    el método leerArchivo(), por uno nuevo llamado cargarDatos(), dentro de este
+    método ejecutaremos código, que abra la conección a la BDD y ejecutar 
+    código SQL para obtener la información registrada en BDD. Para cargar esta información 
+    en el ArrayList a.
+    */
+    
+ // VEGA CENTENO RODRIGO SEBASTIAN
+ // Agregar la funcionalidad de añadir-eliminar-modificar un elemento en la base de datos. 
+ // Eliminar las clases que trabajen con archivos 
     // eliminar esta clase 
     public void leerArchivo() {
         try {
