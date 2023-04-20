@@ -6,6 +6,17 @@ import java.util.ArrayList;
  *
  * @author AlexTprog
  */
+
+ /*
+    PIERO JOSUE HERNANDEZ CORDOVA
+    
+    Una vez que que se cree la vista/interfaz de usuario para el login, 
+    en este archivo se necesitas validar las credenciales ingresadas por el usuario. 
+    Puedes hacer esto comparando las credenciales ingresadas por el usuario con las credenciales almacenadas 
+    en un archivo o base de datos. Si las credenciales son válidas, entonces permites al usuario acceder al menú. 
+    Si no son válidas, debes mostrar un mensaje de error y permitir al usuario volver a intentar ingresar sus credenciales.
+ 
+    */
 public class Menu {
 
     private static Menu menu;

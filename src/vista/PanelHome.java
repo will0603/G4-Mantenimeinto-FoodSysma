@@ -17,6 +17,14 @@ public class PanelHome extends javax.swing.JPanel {
         initComponents();
     }
 
+
+    /*
+        HERNANDEZ CORDOVA PIERO JOSUE
+     * En esta parte se deberia modificar para que antes de que salga la ventana principal con todos los platos
+     * que ofrece la empresa se debe crear una interfaz o vista de usuario para que los usuarios puedan ingresar sus credenciales. 
+     * Puedes utilizar una clase de diálogo de entrada de texto como JOptionPane para crear la interfaz
+     */
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
