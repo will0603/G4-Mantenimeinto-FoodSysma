@@ -18,6 +18,18 @@ import java.awt.Toolkit;
  * @author anthony.ricse
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
+    
+    /**
+     * Sebastian Elias Ramos Villanueva.
+     * En esta Venatana así como hay botones para ver el menú, el balance e 
+     * inventario se puede crear tambien un botón para que el trabajador puede 
+     * tener su propio perfil profesional. La funcionalidad de dicho botón 
+     * sería mostrar (crear) una ventana donde este pueda digitar sus datos 
+     * profesionales, esta información le puede ser útil al dueño del 
+     * restaurante y también se le puede mostrar a los usuarios los datos de 
+     * estos trabajores para que puedan sentirse más seguros de confiar sus 
+     * comidas con gente experta.
+     */
 
     private int xx,xy;
     
