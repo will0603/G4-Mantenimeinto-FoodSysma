@@ -73,6 +73,10 @@ public class PanelDatos extends javax.swing.JFrame {
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 255));
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        // La imagen "confirmar.jpg" debe describir de mejor forma en qué consiste dicha imagen.
+        // El uso de la imagen como "botón" fue considerado suficiente, mas no indica la descripción
+        // o nombre de la funcionalidad que representa dicha imagen. Tampoco se especifica quién dentro
+        // del negocio puede acceder a dicha funcionalidad o si es libre.
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/confirmar.jpg"))); // NOI18N
         btnAceptar.setBorder(null);
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -81,11 +85,14 @@ public class PanelDatos extends javax.swing.JFrame {
                 btnAceptarActionPerformed(evt);
             }
         });
-        panPrueba.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 80, 80));
-
+        panPrueba.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 80, 80)); 
         btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        // La imagen "2.png" no es intuitiva y genera mayor trabajo para identificar de qué imagen se trata. 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/2.png"))); // NOI18N
+        // El uso de la imagen como "botón" fue considerado suficiente, mas no indica la descripción
+        // o nombre de la funcionalidad que representa dicha imagen. Tampoco se especifica quién dentro
+        // del negocio puede acceder a dicha funcionalidad o si es libre.
         btnCancelar.setBorder(null);
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
