@@ -17,10 +17,15 @@ import modelo.Inventario;
 import modelo.ListaPedido;
 import modelo.TextPrompt;
 import modelo.Pedido;
+import controlador.ControladorArchivoInventario;
+import vista.VentanaValidError;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
  * @author anthony.ricse
+ * @author Juan Martin Dominguez M
  */
 public class PanelDatos extends javax.swing.JFrame {
 
@@ -73,10 +78,6 @@ public class PanelDatos extends javax.swing.JFrame {
 
         btnAceptar.setBackground(new java.awt.Color(255, 255, 255));
         btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        // La imagen "confirmar.jpg" debe describir de mejor forma en qué consiste dicha imagen.
-        // El uso de la imagen como "botón" fue considerado suficiente, mas no indica la descripción
-        // o nombre de la funcionalidad que representa dicha imagen. Tampoco se especifica quién dentro
-        // del negocio puede acceder a dicha funcionalidad o si es libre.
         btnAceptar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/confirmar.jpg"))); // NOI18N
         btnAceptar.setBorder(null);
         btnAceptar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -85,14 +86,11 @@ public class PanelDatos extends javax.swing.JFrame {
                 btnAceptarActionPerformed(evt);
             }
         });
-        panPrueba.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 80, 80)); 
+        panPrueba.add(btnAceptar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 80, 80));
+
         btnCancelar.setBackground(new java.awt.Color(255, 255, 255));
         btnCancelar.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        // La imagen "2.png" no es intuitiva y genera mayor trabajo para identificar de qué imagen se trata. 
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/2.png"))); // NOI18N
-        // El uso de la imagen como "botón" fue considerado suficiente, mas no indica la descripción
-        // o nombre de la funcionalidad que representa dicha imagen. Tampoco se especifica quién dentro
-        // del negocio puede acceder a dicha funcionalidad o si es libre.
         btnCancelar.setBorder(null);
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -138,18 +136,61 @@ public class PanelDatos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-//        if (txtNombre.getText() == "" && txtDni.getText() == "") {
-//            
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Datos incompletos");
-//        }
-        Cliente client = new Cliente(txtNombre.getText(), txtDni.getText());
-        Pedido pedido = new Pedido(comida, client);
-        descontarIngredientes(pedido);
-        misPedidos.addPedido(pedido);
-        micaja.addBoleta(pedido);
-        dispose();
-        conexion.actualizarTablas();
+        String mensajeDni = "", mensajeNombre = "", mensajeEnviar = "";
+        boolean validDni = true, validNombre = true;
+        
+        /* VALIDACIÓN DEL 'NOMBRE' */
+        
+        // Validar máximo de caracteres del nombre (50)
+        // Validar caracteres alfabéticos, apóstrofe (') y guion (-) en nombre
+        // Ejemplo con apóstrofe: O'Connor | Ejemplo con guion: Gomez-Ruiz 
+        if (txtNombre.getText().length() > 50 || !txtNombre.getText().matches("[a-zA-Z' -]+")) {
+            validNombre = false;
+            mensajeNombre = "El nombre debe tener una longitud max. de 50 caracteres"
+                            + " y tener caracteres válidos.";
+            System.out.println(mensajeNombre);
+            
+            mensajeEnviar = mensajeNombre;
+        }
+        
+        /* VALIDACIÓN DEL 'DNI' */
+        
+        // Validar el número de caracteres del String que recibe el DNI tipeado
+        // Validar 'solo caracteres numéricos' del DNI tipeado
+        if(txtDni.getText().length() != 8 || !txtDni.getText().matches("\\d+")) {
+            validDni = false;
+            mensajeDni = "El DNI debe tener una longitud de 8 caracteres"
+                        + " y ser de caracteres numéricos solamente.";
+            System.out.println(mensajeDni);
+            
+            if(validNombre == false){
+                mensajeEnviar = mensajeEnviar.concat(" \n\n "+mensajeDni);
+            }
+            else{
+                mensajeEnviar = mensajeDni;
+            }
+        }
+        
+        // Si el nombre y DNI son válidos, se registra el cliente y su pedido
+        if(validNombre == true && validDni == true){
+            Cliente client = new Cliente(txtNombre.getText(), txtDni.getText());
+            Pedido pedido = new Pedido(comida, client);
+            descontarIngredientes(pedido);
+            misPedidos.addPedido(pedido);
+            micaja.addBoleta(pedido);
+            this.dispose();
+            conexion.actualizarTablas();
+        } // Si el nombre o DNI no es válido, aparecerá la ventana de error en los datos
+        else{           
+            this.dispose();
+            VentanaValidError vve = new VentanaValidError(mensajeEnviar);
+            vve.setSize(new Dimension(360,310));
+            Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+            int posX = (pantalla.width - vve.getWidth()) / 2;
+            int posY = (pantalla.height - vve.getHeight()) / 2;
+            vve.setLocationRelativeTo(null);
+            vve.setVisible(true);
+        }
         limpiarCampos();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
