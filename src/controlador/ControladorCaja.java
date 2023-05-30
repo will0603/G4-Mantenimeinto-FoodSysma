@@ -69,22 +69,58 @@ public class ControladorCaja {
  
     */
 
+    /* Refactorización - Salvar Archivo (code smell: Long Method)
+        Técnica: Extract Method
+        Hecho por: Juan Martín Domínguez Matos (19200275)
+    */
+    
+    // INICIO DE LA REFACTORIZACIÓN
+    // salvarArchivo ahora cuenta con 1 solo try-catch.
     public void salvarArchivo() {
         try {
-            FileOutputStream file = new FileOutputStream("boletas.dat");
-            ObjectOutputStream fileOut = new ObjectOutputStream(file);
-            Boleta b = miCaja.getUltimo();
-            for (int i = 0; i < miCaja.getTamaño(); i++) {
-                fileOut.writeObject(b);
-                b = b.sig;
-                System.out.println(b.cliente.getDni());
-            }
-            fileOut.close();
-            JOptionPane.showMessageDialog(null, "Las boletas fueron registradas.");
+            FileOutputStream file = abrirArchivo();
+            ObjectOutputStream fileOut = crearObjectOutputStream(file);
+            escribirBoletas(fileOut);
+            cerrarArchivo(fileOut);
+            mostrarMensajeExitoso();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Boletas no registradas.");
+            mostrarMensajeError();
+    }
+}
+
+    // Se crea un método para abrir el archivo de boletas
+    private FileOutputStream abrirArchivo() throws IOException {
+        return new FileOutputStream("boletas.dat");
+    }
+
+    // Se crea un objeto que será usado para escribir en un archivo
+    private ObjectOutputStream crearObjectOutputStream(FileOutputStream file) throws IOException {
+        return new ObjectOutputStream(file);
+    }
+
+    // Se crea el método escribirBoletas para guardar los registros necesarios en la boleta
+    private void escribirBoletas(ObjectOutputStream fileOut) throws IOException {
+        Boleta b = miCaja.getUltimo();
+        for (int i = 0; i < miCaja.getTamaño(); i++) {
+            fileOut.writeObject(b);
+            b = b.sig;
+            System.out.println(b.cliente.getDni());
         }
     }
+
+    // Método para cerrar el archivo en el que se está escribiendo
+    private void cerrarArchivo(ObjectOutputStream fileOut) throws IOException {
+        fileOut.close();
+    }
+    
+    private void mostrarMensajeExitoso() {
+        JOptionPane.showMessageDialog(null, "Las boletas fueron registradas.");
+    }
+
+    private void mostrarMensajeError() {
+        JOptionPane.showMessageDialog(null, "Boletas no registradas.");
+    }
+    // FIN DE LA REFACTORIZACIÓN
 
     public void cargarCaja() {
         for (Boleta b : this.boletas) {
