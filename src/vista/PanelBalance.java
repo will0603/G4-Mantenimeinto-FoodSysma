@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JComboBox;
 import javax.swing.table.DefaultTableModel;
@@ -34,7 +35,7 @@ public class PanelBalance extends javax.swing.JPanel {
     Caja miCaja = Caja.getCaja();
     ListaPedido misPedidos = ListaPedido.getListaPedido();
     ArrayList<Pedido> misClientes = misPedidos.getPedidos();
-    ArrayList<Boleta> misBoletas = miCaja.getBoletasActivas();
+    List<Boleta> misBoletas = miCaja.getBoletasActivas();
 
     public PanelBalance() {
         initComponents();
@@ -365,10 +366,10 @@ public class PanelBalance extends javax.swing.JPanel {
 
     public void setTablaBalance(Caja c) {
         String[] columnas = {"DNI", "Nombre", "Fecha", "Monto", "Estado"};
-        Object[][] miData = new Object[c.getTamaño()][5];
+        Object[][] miData = new Object[c.getTamanio()][5];
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
         Boleta b = c.getUltimo();
-        for (int i = 0; i < c.getTamaño(); i++) {
+        for (int i = 0; i < c.getTamanio(); i++) {
             b.calcMonto();
             miData[i][0] = b.cliente.getDni();
             miData[i][1] = b.cliente.getNombre();
@@ -413,14 +414,14 @@ public class PanelBalance extends javax.swing.JPanel {
     }
 
     public void setNumeroVentas(Caja c) {
-        int ventas = c.getTamaño();
+        int ventas = c.getTamanio();
         lblTotalVentas.setText(String.valueOf(ventas));
     }
 
     public void setPlatoMasVendido(Caja c) {
         ArrayList<String> comidas = new ArrayList<>();
         Boleta b = c.getUltimo();
-        for (int i = 0; i < c.getTamaño(); i++) {
+        for (int i = 0; i < c.getTamanio(); i++) {
             for (int j = 0; j < b.pedidos.size(); j++) {
                 comidas.add(b.pedidos.get(j).comida.getNombre());
             }
@@ -451,7 +452,7 @@ public class PanelBalance extends javax.swing.JPanel {
 
     public void actualizarComboBox() {
         misBoletas = miCaja.getBoletasActivas();
-        setCmbxClientes(misBoletas);
+        setCmbxClientes((ArrayList<Boleta>) misBoletas);
     }
 
 }

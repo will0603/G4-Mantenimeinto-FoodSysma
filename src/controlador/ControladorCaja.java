@@ -101,7 +101,7 @@ public class ControladorCaja {
     // Se crea el método escribirBoletas para guardar los registros necesarios en la boleta
     private void escribirBoletas(ObjectOutputStream fileOut) throws IOException {
         Boleta b = miCaja.getUltimo();
-        for (int i = 0; i < miCaja.getTamaño(); i++) {
+        for (int i = 0; i < miCaja.getTamanio(); i++) {
             fileOut.writeObject(b);
             b = b.sig;
             System.out.println(b.cliente.getDni());
