@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Comida;
-import modelo.Ingrediente;
 import modelo.Inventario;
 import modelo.Menu;
 
@@ -18,13 +18,9 @@ import modelo.Menu;
  * @author Carlos
  */
 public class ControladorArchivoMenu {
-
-//    private ArrayList<Comida> comidas;
-//
-//    public ControladorArchivoMenu() {
-//        comidas = new ArrayList<Comida>();
-//        leerArchivo();
-//    }
+    String ingrCebolla = "Cebolla";
+    String ingrArroz = "Arroz";
+    String ingrPollo = "Pollo";
     
     /*
     Developer: Wilfredo Huallpartupa Gallegos
@@ -35,24 +31,29 @@ public class ControladorArchivoMenu {
     código SQL para obtener la información registrada en BDD. Para cargar esta información 
     en el ArrayList a.
     */
-    public void leerArchivo(ArrayList<Comida> a) {
+    public void leerArchivo(List<Comida> a) {
         try {
             FileInputStream file = new FileInputStream("Comidas.dat");
             ObjectInputStream fileInput = new ObjectInputStream(file);
             boolean finArchivo = false;
             while (!finArchivo) {
-                try {
-                    a.add((Comida) fileInput.readObject());
-                } catch (EOFException e) {
-                    finArchivo = true;
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
+                finArchivo = agregarComida(a, fileInput);
             }
             fileInput.close();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Sin comidas.");
         }
+    }
+    
+    public boolean agregarComida(List<Comida> a, ObjectInputStream fileInput){
+        try {
+                a.add((Comida) fileInput.readObject());
+            } catch (EOFException e) {
+                   return true;
+            } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+        return false;
     }
     
     /*
@@ -64,7 +65,7 @@ public class ControladorArchivoMenu {
  
     */
 
-    public void salvarArchivo(ArrayList<Comida> a) {
+    public void salvarArchivo(List<Comida> a) {
         try {
             FileOutputStream file = new FileOutputStream("Comidas.dat");
             ObjectOutputStream fileOut = new ObjectOutputStream(file);
@@ -76,16 +77,7 @@ public class ControladorArchivoMenu {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Comidas no registradas.");
         }
-    }
-
-//    public void cargarComidas(ArrayList<Comida> comidas) {
-//        Menu miMenu = Menu.getMenu();
-//        for (Comida i : this.comidas) {
-//            miMenu.addComida(i);
-//        }
-//    }
-    //Para inicializar las comidas, luego borrar metodo.
-    
+    }    
     
     /*
     Developer: Wilfredo Huallpartupa Gallegos
@@ -95,7 +87,7 @@ public class ControladorArchivoMenu {
     que se han registrando en la base de datos (BDD)
     
     */
-    public void inicializarMenu(ArrayList<Comida> a) {
+    public void inicializarMenu(List<Comida> a) {
         Inventario miInventario = Inventario.getInventario();
 
         // comidas predefinidas
@@ -109,27 +101,27 @@ public class ControladorArchivoMenu {
         Comida com7 = new Comida("Ceviche", 12.0f, "/imagenes/arrayComida/comida8.jpg");
 
         com0.agregarIngrediente(miInventario.buscarIngrediente("Lomo"));
-        com0.agregarIngrediente(miInventario.buscarIngrediente("Arroz"));
+        com0.agregarIngrediente(miInventario.buscarIngrediente(ingrArroz));
         com0.agregarIngrediente(miInventario.buscarIngrediente("Papa"));
-        com0.agregarIngrediente(miInventario.buscarIngrediente("Cebolla"));
+        com0.agregarIngrediente(miInventario.buscarIngrediente(ingrCebolla));
 
         com1.agregarIngrediente(miInventario.buscarIngrediente("Gallina"));
         com1.agregarIngrediente(miInventario.buscarIngrediente("Aji amarillo"));
         com1.agregarIngrediente(miInventario.buscarIngrediente("Papa"));
-        com1.agregarIngrediente(miInventario.buscarIngrediente("Arroz"));
+        com1.agregarIngrediente(miInventario.buscarIngrediente(ingrArroz));
 
-        com2.agregarIngrediente(miInventario.buscarIngrediente("Arroz"));
-        com2.agregarIngrediente(miInventario.buscarIngrediente("Pollo"));
+        com2.agregarIngrediente(miInventario.buscarIngrediente(ingrArroz));
+        com2.agregarIngrediente(miInventario.buscarIngrediente(ingrPollo));
         com2.agregarIngrediente(miInventario.buscarIngrediente("Alverjas"));
         com2.agregarIngrediente(miInventario.buscarIngrediente("Zanahoria"));
 
-        com3.agregarIngrediente(miInventario.buscarIngrediente("Arroz"));
-        com3.agregarIngrediente(miInventario.buscarIngrediente("Pollo"));
+        com3.agregarIngrediente(miInventario.buscarIngrediente(ingrArroz));
+        com3.agregarIngrediente(miInventario.buscarIngrediente(ingrPollo));
         com3.agregarIngrediente(miInventario.buscarIngrediente("Huevo"));
         com3.agregarIngrediente(miInventario.buscarIngrediente("Pimenton"));
 
-        com4.agregarIngrediente(miInventario.buscarIngrediente("Pollo"));
-        com4.agregarIngrediente(miInventario.buscarIngrediente("Arroz"));
+        com4.agregarIngrediente(miInventario.buscarIngrediente(ingrPollo));
+        com4.agregarIngrediente(miInventario.buscarIngrediente(ingrArroz));
         com4.agregarIngrediente(miInventario.buscarIngrediente("Huevo"));
         com4.agregarIngrediente(miInventario.buscarIngrediente("Fideos"));
 
@@ -140,11 +132,11 @@ public class ControladorArchivoMenu {
 
         com6.agregarIngrediente(miInventario.buscarIngrediente("Res"));
         com6.agregarIngrediente(miInventario.buscarIngrediente("Alverjas"));
-        com6.agregarIngrediente(miInventario.buscarIngrediente("Cebolla"));
-        com6.agregarIngrediente(miInventario.buscarIngrediente("Arroz"));
+        com6.agregarIngrediente(miInventario.buscarIngrediente(ingrCebolla));
+        com6.agregarIngrediente(miInventario.buscarIngrediente(ingrArroz));
 
         com7.agregarIngrediente(miInventario.buscarIngrediente("Pescado"));
-        com7.agregarIngrediente(miInventario.buscarIngrediente("Cebolla"));
+        com7.agregarIngrediente(miInventario.buscarIngrediente(ingrCebolla));
         com7.agregarIngrediente(miInventario.buscarIngrediente("Limones"));
         com7.agregarIngrediente(miInventario.buscarIngrediente("Camote"));
 
@@ -159,20 +151,21 @@ public class ControladorArchivoMenu {
 
     }
 
-    public ArrayList<Comida> crearArrayList() {
-        ArrayList<Comida> a = new ArrayList<>();
+    public List<Comida> crearArrayList() {
+        List<Comida> a;
+        a = new ArrayList<>();
         return a;
     }
 
     public void cargarArchivo() {
         Menu miMenu = Menu.getMenu();
-        ArrayList<Comida> temp = crearArrayList();
+        List<Comida> temp = crearArrayList();
         leerArchivo(temp);
         miMenu.cargarComidas(temp);
     }
 
     public void crearArchivo() {
-        ArrayList<Comida> temp = crearArrayList();
+        List<Comida> temp = crearArrayList();
         leerArchivo(temp);
         inicializarMenu(temp);
         salvarArchivo(temp);

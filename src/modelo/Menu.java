@@ -1,7 +1,6 @@
 package modelo;
 
-import java.util.ArrayList;
-
+import java.util.List;
 /**
  *
  * @author AlexTprog
@@ -86,7 +85,7 @@ public class Menu {
         return c;
     }
 
-    public void cargarComidas(ArrayList<Comida> listaComidas) {
+    public void cargarComidas(List<Comida> listaComidas) {
         for (Comida temp : listaComidas) {
             addComida(temp);
         }
