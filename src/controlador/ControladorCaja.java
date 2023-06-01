@@ -38,28 +38,35 @@ public class ControladorCaja {
     código SQL para obtener la información registrada en BDD. Para cargar esta información 
     en el ArrayList boletas.
     */
-
+    
+    /**
+     * Sebastian Elias Ramos Villanueva.
+     * Code Smell de tipo Long Method  
+     * Refactorizació con la tecnica Extract Method 
+     */
     public void leerArchivo() {
-        try {
-            FileInputStream file = new FileInputStream("boletas.dat");
-            ObjectInputStream fileInput = new ObjectInputStream(file);
+        try (FileInputStream file = new FileInputStream("boletas.dat"); 
+                ObjectInputStream fileInput = new ObjectInputStream(file)) {
             boolean finArchivo = false;
-            while (!finArchivo) {
-                try {
-                    boletas.add((Boleta) fileInput.readObject());
-                } catch (EOFException e) {
-                    finArchivo = true;
-                    System.out.println("fin de archivo");
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
-            }
-            fileInput.close();
+            while (!finArchivo) 
+                finArchivo = agregarBoletas(fileInput);
             cargarCaja();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Sin boletas");
         }
     }
+    
+    public boolean agregarBoletas(ObjectInputStream fileInput){
+        try {
+            boletas.add((Boleta) fileInput.readObject());
+        } catch (EOFException e) {
+            return true;
+        } catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return false;
+    }
+    
     /*
     Developer: Wilfredo Huallpartupa Gallegos
     
