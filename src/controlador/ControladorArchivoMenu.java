@@ -18,6 +18,10 @@ import modelo.Menu;
  * @author Carlos
  */
 public class ControladorArchivoMenu {
+    /* Refactorización - (code smell: Duplicidad de código, Long Method)
+        Técnica: Extract Method
+        Hecho por: Wilfredo Huallpartupa Gallegos (18200083)
+    */
     String ingrCebolla = "Cebolla";
     String ingrArroz = "Arroz";
     String ingrPollo = "Pollo";
@@ -30,6 +34,11 @@ public class ControladorArchivoMenu {
     método ejecutaremos código, que abra la conección a la BDD y ejecutar 
     código SQL para obtener la información registrada en BDD. Para cargar esta información 
     en el ArrayList a.
+    */
+    
+    /* Refactorización - (code smell: Long Method)
+        Técnica: Extract Method
+        Hecho por: Wilfredo Huallpartupa Gallegos (18200083)
     */
     public void leerArchivo(List<Comida> a) {
         try {
