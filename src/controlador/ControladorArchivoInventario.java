@@ -1,5 +1,7 @@
 package controlador;
-
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,18 +20,8 @@ import modelo.Inventario;
  
 
 public class ControladorArchivoInventario {
-
-    ArrayList<Ingrediente> a = new ArrayList<Ingrediente>();
-//    private ArrayList<Ingrediente> ingredientes;
-//
-//    public ControladorArchivoInventario() {
-//        this.ingredientes = new ArrayList<Ingrediente>();
-//        ArrayList<Ingrediente> temp;
-//        temp = crearArrayList();
-//        leerArchivo(temp);
-//        inicializarInventario(temp);
-//        salvarArchivo(temp);
-//    }
+//Reemplace la especificación de tipo en esta llamada de constructor con el operador de diamante 
+       ArrayList<Ingrediente> a = new ArrayList<>();
 
      /*
     Developer: Wilfredo Huallpartupa Gallegos
@@ -45,19 +37,20 @@ public class ControladorArchivoInventario {
  // Agregar la funcionalidad de añadir-eliminar-modificar un elemento en la base de datos. 
  // Eliminar las clases que trabajen con archivos 
     // eliminar esta clase 
+       
+/* 
+    Code Smell de tipo Long method 
+    Refactorizacion con la tecnica extract method 
+    Vega Centeno Rodrigo Sebastian 19200277 
+   */
+       
     public void leerArchivo() {
         try {
             FileInputStream file = new FileInputStream("ingredientes.dat");
             ObjectInputStream fileInput = new ObjectInputStream(file);
             boolean finArchivo = false;
             while (!finArchivo) {
-                try {
-                    a.add((Ingrediente) fileInput.readObject());
-                } catch (EOFException e) {
-                    finArchivo = true;
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage());
-                }
+            finArchivo = AgregarIngrediente(a, fileInput);
             }
             fileInput.close();
             cargarArchivo();
@@ -66,6 +59,17 @@ public class ControladorArchivoInventario {
         }
     }
     
+    public boolean AgregarIngrediente( ArrayList<Ingrediente> a,ObjectInputStream fileInput){
+        
+        try {
+                 a.add((Ingrediente) fileInput.readObject());
+                } catch (EOFException e) {
+                    return true;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+        return false;
+}
 /*
     Developer: Wilfredo Huallpartupa Gallegos
     
@@ -76,6 +80,9 @@ public class ControladorArchivoInventario {
     */
     
     // eliminar la clase de salvarArchivo 
+    
+    // Creacion del metodo logger  para registrar el mensaje. Level.INFO especifica el nivel de registro como información.
+    private static final Logger logger = Logger.getLogger(controlador.ControladorArchivoInventario.class.getName());
     public void salvarArchivo() {
         try {
             FileOutputStream file = new FileOutputStream("ingredientes.dat");
@@ -85,31 +92,11 @@ public class ControladorArchivoInventario {
                 fileOut.writeObject(inv.getIngredientes()[i]);
             }
             fileOut.close();
-            System.out.println("Los ingredientes fueron guardados.");            
+            logger.log(Level.INFO,"Los ingredientes fueron guardados.");           
         } catch (IOException e) {
-            System.out.println("Ingredientes no registrados.");
+            logger.log(Level.INFO,"Ingredientes no registrados.");
         }
     }
-
-    //Para inicializar las comidas, luego borrar metodo.
-//    public void agregarIngredientes(String nom, String cat, int cant) {
-//        Ingrediente i = new Ingrediente(nom, cat, cant);
-//        i.aumIngrediente(cant);
-//        crearArrayList().add(i);
-//        salvarArchivo();
-//    }
-//
-//    public void eliminarIngredientes(Ingrediente ing, String nom) {
-//        int i = 0;
-//        boolean flag = true;
-//        while (i < crearArrayList().size()) {
-//            if (ing.getNombre().equalsIgnoreCase(nom)) {
-//                crearArrayList().remove(i);
-//                salvarArchivo();
-//                flag = false;
-//            }
-//        }
-//    }
     
     /*
     Developer: Wilfredo Huallpartupa Gallegos
@@ -119,7 +106,7 @@ public class ControladorArchivoInventario {
     que se han registrando en la base de datos (BDD)
     
     */
-    public void inicializarInventario(ArrayList<Ingrediente> a) {
+    public void inicializarInventario(List<Ingrediente> a) {
         Ingrediente ing1 = new Ingrediente("Lomo", "carnes", 10);
         Ingrediente ing2 = new Ingrediente("Arroz", "vegetales", 10);
         Ingrediente ing3 = new Ingrediente("Papa", "vegetales", 10);
@@ -159,23 +146,13 @@ public class ControladorArchivoInventario {
         a.add(ing18);
     }
 
-//    public void cargarInventario() {
-//        Inventario miInventario = Inventario.getInventario();
-//        for (Ingrediente i : this.crearArrayList()) {
-//            miInventario.addIngrediente(i);
-//        }
-//    }
+
     public ArrayList<Ingrediente> crearArrayList() {
         ArrayList<Ingrediente> a = new ArrayList<>();
         return a;
     }
 
-//    public void crearArchivo() {
-//        ArrayList<Ingrediente> temp = crearArrayList();
-//        leerArchivo(temp);
-//        inicializarInventario(temp);
-//     salvarArchivo(temp);
-//    }
+
     public void cargarArchivo() {
         Inventario miInventario = Inventario.getInventario();
 
