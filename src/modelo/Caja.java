@@ -1,21 +1,30 @@
+/* 
+    Code Smell de tipo Long method con tecnica extract method 
+    Hernandez Cordova, Piero Josue
+*/
+
 package modelo;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  *
  * @author AlexTprog
  */
+
 //Lista Circ de Boletas
 public class Caja {
 
     private static Caja caja;
     private Boleta ultimo;
-    private int tamaño;
+    private int tamanio;
 
     private Caja() {
         ultimo = null;
-        tamaño = 0;
+        tamanio = 0;
     }
 
     public static Caja getCaja() {
@@ -32,25 +41,26 @@ public class Caja {
     //Solo para cargar desde los archivos
     public void addBoleta(Boleta nuevo) {
         ultimo = nuevo;
-        tamaño++;
+        tamanio++;
 
     }
 
+    private static final Logger logger = Logger.getLogger(controlador.ControladorArchivoInventario.class.getName());
     public void addBoleta(Pedido p) {
         Boleta nuevo = new Boleta(p);
 
         if (isCajaVacia()) {
             ultimo = nuevo;
-            tamaño++;
+            tamanio++;
         } else {
             if (!isBoletaActiva(p.cliente.getDni())) {
                 nuevo.sig = ultimo.sig;
                 ultimo.sig = nuevo;
                 ultimo = nuevo;
-                tamaño++;
+                tamanio++;
             } else {
                 buscarBoleta(p.cliente).addPedido(p);
-                System.out.println("Ya Hay un Boleta Activa");
+                logger.log(Level.INFO,"Ya Hay un Boleta Activa");
             }
         }
     }
@@ -100,29 +110,21 @@ public class Caja {
         }
         return total;
     }
-//
-//    public void recibirPedido(ArrayList<Pedido> lista) {
-//        for (Pedido aux : lista) {
-//            if (aux != null) {
-//                addPedidoBoleta(aux);
-//            }
-//        }
-//    }
 
-    public int getTamaño() {
-        return tamaño;
+    public int getTamanio() {
+        return tamanio;
     }
 
     public Boleta getUltimo() {
         return ultimo;
     }
 
-    public ArrayList<Boleta> getBoletasActivas() {
+    public List<Boleta> getBoletasActivas() {
         ArrayList<Boleta> temp = new ArrayList<>();
         Boleta aux = ultimo;
 
         if (!isCajaVacia()) {
-            for (int i = 0; i < caja.getTamaño(); i++) {
+            for (int i = 0; i < caja.getTamanio(); i++) {
                 if (aux.estado == false) {
                     temp.add(aux);
                 }
